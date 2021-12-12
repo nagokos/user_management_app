@@ -6,5 +6,8 @@ services:
       - 3000:3000
     volumes: 
       - .:/myapp:cached
+      - /myapp/node_modules
+    working_dir: /myapp
     command: sh -c "yarn install && yarn dev"
     stdin_open: true
+    tty: true
