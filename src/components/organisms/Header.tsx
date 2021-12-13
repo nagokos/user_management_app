@@ -3,10 +3,10 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 import { MenuIconButton, MenuDrawer } from '../index';
+import { useSize } from '../../hooks/index';
 
 export const Header: VFC = memo(() => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -21,8 +21,7 @@ export const Header: VFC = memo(() => {
     setIsOpen(false);
   }, []);
 
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { isMobile } = useSize();
 
   return (
     <>
@@ -37,7 +36,7 @@ export const Header: VFC = memo(() => {
               >
                 ユーザー管理アプリ
               </Typography>
-              {!mobile && (
+              {!isMobile && (
                 <>
                   <Typography
                     component="span"
@@ -60,7 +59,7 @@ export const Header: VFC = memo(() => {
                 </>
               )}
             </Box>
-            {mobile && <MenuIconButton onOpen={onOpen} />}
+            {isMobile && <MenuIconButton onOpen={onOpen} />}
           </Toolbar>
         </AppBar>
       </Box>

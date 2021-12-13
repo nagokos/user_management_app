@@ -10,34 +10,18 @@ import {
   Typography,
 } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
-import axios from 'axios';
-
-import { User } from '../types/index';
-import { useNavigate } from 'react-router';
 import LoadingButton from '@mui/lab/LoadingButton';
+
+import { useAuth } from '../hooks/useAuth';
 
 export const Login: VFC = memo(() => {
   const [userId, setUserId] = useState<string>('');
-  const navigate = useNavigate();
+  const { login, loading } = useAuth();
 
   const onInputUserId = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setUserId(event.target.value);
-  };
-
-  const userLogin = async () => {
-    try {
-      const res = await axios.get<User>(
-        `https://jsonplaceholder.typicode.com/users/${userId}`
-      );
-      console.log(res);
-      navigate('/home');
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.log(err.message);
-      }
-    }
   };
 
   return (
@@ -50,7 +34,7 @@ export const Login: VFC = memo(() => {
             </Typography>
           </CardContent>
           <Divider />
-          <CardContent sx={{ px: 5, py: 4 }}>
+          <CardContent sx={{ px: 4, py: 4 }}>
             <TextField
               label="ユーザーID"
               fullWidth
@@ -65,7 +49,17 @@ export const Login: VFC = memo(() => {
               }}
               variant="standard"
             />
-            <LoadingButton>ログイン</LoadingButton>
+            <LoadingButton
+              loading={loading}
+              onClick={() => login(userId)}
+              variant="contained"
+              fullWidth
+              color="dark"
+              disabled={!userId}
+              sx={{ mt: 3 }}
+            >
+              ログイン
+            </LoadingButton>
           </CardContent>
         </Card>
       </Grid>
