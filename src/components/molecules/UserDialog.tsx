@@ -15,12 +15,13 @@ import { useRecoilValue } from 'recoil';
 
 type Props = {
   closeDialog: () => void;
+  updateUser: (user: User) => void;
   dialog: boolean;
   user: User;
 };
 
 export const UserDialog: VFC<Props> = memo((props) => {
-  const { closeDialog, dialog, user } = props;
+  const { closeDialog, updateUser, dialog, user } = props;
   const { isMobile } = useSize();
 
   const [name, setName] = useState('');
@@ -69,9 +70,9 @@ export const UserDialog: VFC<Props> = memo((props) => {
           color="dark"
           size="small"
           value={name}
-          InputProps={{
-            readOnly: isAdmin ? false : true,
-          }}
+          // InputProps={{
+          //   readOnly: isAdmin ? false : true,
+          // }}
           onChange={(event) => setName(event.target.value)}
         />
         <DialogContentText variant="caption" fontWeight="bold" sx={{ mt: 2 }}>
@@ -83,9 +84,10 @@ export const UserDialog: VFC<Props> = memo((props) => {
           color="dark"
           size="small"
           value={email}
-          InputProps={{
-            readOnly: isAdmin ? false : true,
-          }}
+          // InputProps={{
+          //   readOnly: isAdmin ? false : true,
+          // }}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <DialogContentText variant="caption" fontWeight="bold" sx={{ mt: 2 }}>
           電話番号
@@ -96,16 +98,23 @@ export const UserDialog: VFC<Props> = memo((props) => {
           color="dark"
           size="small"
           value={phone}
-          InputProps={{
-            readOnly: isAdmin ? false : true,
-          }}
+          // InputProps={{
+          //   readOnly: isAdmin ? false : true,
+          // }}
           onChange={(event) => setPhone(event.target.value)}
         />
-        {isAdmin && (
-          <Button fullWidth sx={{ mt: 3, py: 1.1 }}>
-            更新
-          </Button>
-        )}
+        <Button
+          onClick={() =>
+            updateUser(
+              Object.assign(user, { name: name, email: email, phone: phone })
+            )
+          }
+          // disabled={!isAdmin}
+          fullWidth
+          sx={{ mt: 3, py: 1.1 }}
+        >
+          更新
+        </Button>
       </DialogContent>
     </Dialog>
   );

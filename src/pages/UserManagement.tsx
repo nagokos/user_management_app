@@ -40,6 +40,15 @@ export const UserManagement: VFC = memo(() => {
 
   const closeDialog = () => {
     setDialog(false);
+    setUser({ ...user });
+  };
+
+  const updateUser = (user: User) => {
+    const index = users.findIndex((oldUser) => oldUser.id === user.id);
+    users.splice(index, 1, user);
+    const newUsers = users;
+    setUsers(newUsers);
+    setDialog(false);
   };
 
   return (
@@ -61,7 +70,12 @@ export const UserManagement: VFC = memo(() => {
           </Grid>
         </Box>
       </Container>
-      <UserDialog closeDialog={closeDialog} dialog={dialog} user={user} />
+      <UserDialog
+        updateUser={updateUser}
+        closeDialog={closeDialog}
+        dialog={dialog}
+        user={user}
+      />
     </>
   );
 });
