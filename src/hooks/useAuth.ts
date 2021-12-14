@@ -3,13 +3,14 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { User } from '../types/index';
 import { useUnmountRef, useSafeState } from './index';
-import { snackbarState, snackbarMessage } from '../store/index';
+import { snackbarState, snackbarMessage, userState } from '../store/index';
 import { useSetRecoilState } from 'recoil';
 
 export const useAuth = () => {
   const unmountRef = useUnmountRef();
   const [loading, setLoading] = useSafeState(unmountRef, false);
 
+  const currentUser = useSetRecoilState(userState);
   const state = useSetRecoilState(snackbarState);
   const message = useSetRecoilState(snackbarMessage);
 
@@ -18,9 +19,12 @@ export const useAuth = () => {
   const login = useCallback(async (id: string) => {
     setLoading(true);
     try {
-      await axios.get<User>(`https://jsonplaceholder.typicode.com/users/${id}`);
+      const res = await axios.get<User>(
+        `https://jsonplaceholder.typicode.com/users/${id}`
+      );
       state(true);
       message('ログインしました');
+      currentUser(res.data);
       navigate('/home');
     } catch (err) {
       state(true);

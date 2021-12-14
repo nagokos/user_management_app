@@ -25,7 +25,7 @@ export const Header: VFC = memo(() => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, mb: 3 }}>
+      <Box sx={{ flexGrow: 1, mb: 6 }}>
         <AppBar elevation={0} position="static">
           <Toolbar>
             <Box component="div" sx={{ flexGrow: 1 }}>

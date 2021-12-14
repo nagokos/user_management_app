@@ -1,4 +1,4 @@
-import { VFC, memo } from 'react';
+import { VFC, memo, useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -19,6 +19,7 @@ export const UserCard: VFC<Props> = memo((props) => {
   return (
     <Card
       sx={{
+        borderRadius: 3,
         maxWidth: 325,
         marginRight: 'auto',
         marginLeft: 'auto',
